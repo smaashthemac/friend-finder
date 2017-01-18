@@ -1,7 +1,16 @@
-# friend-finder
+# Friend Finder
 
-The Friend Finder application is basically a dating app, but for new buddies. This full-stack site will take in users' surveys, then compare their answers with those from other users. The app will then display the name and picture of the user with the best overall match.
+The Friend Finder application is basically a dating app, but for makin' new buddies. This full-stack site will take in users' surveys, then compare their answers with those from other users. The app will then display the name and picture of the user with the best overall match.
 
-Friend Finder uses ____________________.
+This project was created as an assignment for the Coding Bootcamp at UT Austin.
 
-This was made as a project for the Coding Bootcamp at UT Austin.
+<a href="https://aqueous-headland-57484.herokuapp.com/">View the finished product on Heroku.</a>
+
+# Technologies Used
+
+- HTML
+- CSS
+- Javascript
+- Express
+- Node
+- JSON
