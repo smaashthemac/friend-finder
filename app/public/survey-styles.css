@@ -1,21 +1,36 @@
 body {
-	background-color: #A7EBC7;
+	background-color: #A7EBC7 !important;
 }
 
 h1 {
-	font-family: 'Bungee', cursive;
+	font-family: 'Bungee', cursive !important;
 	font-size: 85px !important;
-	color: #FFF;
+	color: #FFF !important;
 	letter-spacing: 4px;
 	padding-top: 100px;
 	text-align: center;
+}
+
+h2 {
+  font-family: 'Bungee', cursive !important;
+  font-size: 50px !important;
+  color: #A7EBC7 !important;
+  letter-spacing: 4px;
+  text-align: center;
+}
+
+h3#matchName {
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 25px !important;
+  color: #000;
+  text-transform: uppercase;
 }
 
 h4 {
 	font-family: 'Ubuntu', sans-serif;
 	font-size: 20px !important;
 	color: #FFF;
-	text-transform: uppercase
+	text-transform: uppercase;
 }
 
 #button {
@@ -30,86 +45,21 @@ h4 {
 	left: 482px;
 }
 
-/* modal styles */
-@import 'https://fonts.googleapis.com/css?family=Raleway';
-
-.modal {
-  position: fixed;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0,0,0,0.65);
-	visibility: hidden;
-	backface-visibility: hidden;
-  opacity: 0;
-  transition: opacity .15s ease-in-out; 
-  
-  &.modal-open {
-    visibility: visible;
-  	backface-visibility: visible;  
-    opacity: 1;
-    z-index: 1;
-  }
-  
-  .modal-inner {
-    position: relative;
-    height: 100%;
-    display:flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    
-    .modal-content {
-      background-color: white;
-      max-width: 35em;
-      padding: 1em 1.5em;
-      position: relative;
-      margin: 2em;
-      box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.35);
-      
-      .modal-close-icon {
-        position: absolute;
-        right: 1.5em;
-      }      
-      
-      .modal-content-inner {
-        padding-right: 2em;
-        
-        h1, h2, h3, h4, h5, h6 {
-          margin-bottom: 0.25em;
-        }
-        
-        p {
-          margin-bottom: 1em;
-        }
-      }
-      
-      .modal-buttons-seperator {
-        margin: 1.5em 0;
-        margin-top: 0;
-      }
-      
-      .modal-buttons {
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-end;
-        align-items: center;  
-        
-        button {
-          margin-left: 1em;
-          
-          &:first-child {
-            margin-left: 0;
-          }
-        }
-      }
-    }
-  }
+.modal-header {
+    padding-top: 20px !important;
+    border-bottom: 1px solid #e5e5e5;
 }
 
-.demo-container {
-  text-align: center;
+.modal-body {
+    position: relative;
+    padding: 15px;
+    text-align: center;
+}
+
+.modal-footer {
+    padding: 15px;
+    text-align: center;
+    /* border-top: 1px solid #e5e5e5; */
 }
 
 /* skeleton button */

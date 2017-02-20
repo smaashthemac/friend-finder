@@ -25,16 +25,15 @@ h4 {
 	text-transform: uppercase
 }
 
-#button {
-	padding-top: 500px;
+#header {
+  margin-top: -35px;
 }
 
 #subhead {
 	margin-top: -20px;
 }
 
-/* Buttons
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
+/* buttons */
 .button,
 button,
 input[type="submit"],

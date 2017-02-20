@@ -4,10 +4,17 @@
 	<meta charset="UTF-8">
 	<!-- custom stylesheet -->
 	<link rel="stylesheet" type="text/css" href="/static/survey-styles.css"></style>
+	<!-- Latest compiled and minified CSS & JS -->
+  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  	<script src="https://code.jquery.com/jquery.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 	<!-- skeleton stylesheet -->
 	<link rel="stylesheet" type="text/css" href="/static/skeleton.css"></style>
 	<!-- google fonts -->
 	<link href="https://fonts.googleapis.com/css?family=Bungee|Ubuntu:300,300i" rel="stylesheet">
+	<!-- Chosen -->
+  	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.css">
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.jquery.min.js"></script>
 	<title>Survey Questions</title>
 </head>
 <body>
@@ -22,7 +29,7 @@
 		      <label for="name">What's your name?</label>
 		      <input class="u-full-width" type="text" id="name">
 
-		      <label for="image">Describe a photo or drawing of yourself.</label>
+		      <label for="image">Put a link here to a photo or drawing of yourself.</label>
 		      <input class="u-full-width" type="text" id="image">
 
 		      <label for="q1">I freakin' love long walks on the beach.</label>
@@ -125,6 +132,28 @@
 
 	</div>
 
+<!-- Modal -->
+  <div id="resultsModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h2>Best Match</h2>
+        </div>
+        <div class="modal-body">
+          <h3 id="matchName"></h3>
+          <img id="matchImg" src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/6/005/064/1bd/3435aa3.jpg" alt="">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
 <!-- border divs-->
 <div id="top">
 </div>
@@ -135,92 +164,87 @@
 <div id="right">
 </div>
 
-<!-- modal code -->
-<div class="modal modal-open">
-  <div class="modal-inner">
-    <div class="modal-content">
-      <div class="modal-close-icon">
-        <a href="javascript:void(0)" class="close-modal"><i class="fa fa-times" aria-hidden="true"></i></a>
-      </div>
-      <div class="modal-content-inner">
-        <h4>This is the heading</h4>
-        <p>Donec volutpat nisi nisl, sit amet facilisis enim lobortis sed. </p>  
-      </div>
-      <hr class="modal-buttons-seperator">
-      <div class="modal-buttons">
-        <button class="button close-modal">Cancel</button>
-        <button class="button button-primary close-modal">OK</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<main class="container demo-container">
-  <br>
-  <button class="button open-modal">Launch modal window</button>
-</main>
-
-<br><br>
-
 </body>
 
-<!-- link to modal js -->
-<script src="modal.js"></script>
+  <script type="text/javascript">
 
-<!-- link to jQuery -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<!-- link to javascrip file
-<script type="text/javascript" src="assets/javascript/app.js"></script>-->
+  // Chosen CSS
+    var config = {
+      ".chosen-select": {},
+      ".chosen-select-deselect": { allow_single_deselect: true },
+      ".chosen-select-no-single": { disable_search_threshold: 10 },
+      ".chosen-select-no-results": { no_results_text: "Oops, nothing found!" },
+      ".chosen-select-width": { width: "95%" }
+    };
 
-<!-- BELOW CODE IS CRITICAL. IT HANDLES HOW FORM DATA IS SENT TO OUR SERVER -->
-<script type="text/javascript">
+    for (var selector in config) {
+      $(selector).chosen(config[selector]);
+    }
 
-    // In this code below we create the Front-end Javascript which "POSTS" our form data to our express server.
-    // In essence, when the user hits submit, jQuery grabs all of the fields then sends a post request to our api
-    // Our api recognizes the route (/api/tables)... and then runs the associated code (found in api-routes.js).
-    // In this case the associated code "saves" the data to the table-data.js file or waitinglist-data.js file
-
+    // Capture the form inputs
     $("#submit").on("click", function() {
 
-      // Here we grab the form elements
-      var newFriend = {
-        name: $("#name").val().trim(),
-        image: $("#image").val().trim(),
-        scores: [parseInt(q1.value), parseInt(q2.value), parseInt(q3.value), parseInt(q4.value), parseInt(q5.value), parseInt(q6.value), parseInt(q7.value), parseInt(q8.value), parseInt(q9.value), parseInt(q10.value),]
-      };
+      // Form validation
+      function validateForm() {
+        var isValid = true;
+        $(".form-control").each(function() {
+          if ($(this).val() === "") {
+            isValid = false;
+          }
+        });
 
-      // This line is the magic. It"s very similar to the standard ajax function we used.
-      // Essentially we give it a URL, we give it the object we want to send, then we have a "callback".
-      // The callback is the response of the server. In our case, we set up code in api-routes that "returns" true or false
-      // depending on if a tables is available or not.
+        $(".chosen-select").each(function() {
 
-      // Here we get the location of the root page.
-      // We use this instead of explicitly saying the URL is localhost:3001 because the url will change when we deploy.
-      var currentURL = window.location.origin;
+          if ($(this).val() === "") {
+            isValid = false;
+          }
+        });
+        return isValid;
+      }
 
-      $.post(currentURL + "/api/friends", newFriend,
-        function(data) {
+      // If all required fields are filled
+      if (validateForm()) {
+        // Create an object for the user"s data
+        var userData = {
+          name: $("#name").val(),
+          photo: $("#photo").val(),
+          scores: [
+            $("#q1").val(),
+            $("#q2").val(),
+            $("#q3").val(),
+            $("#q4").val(),
+            $("#q5").val(),
+            $("#q6").val(),
+            $("#q7").val(),
+            $("#q8").val(),
+            $("#q9").val(),
+            $("#q10").val()
+          ]
+        };
 
-       // Clear the form when submitting
-       $("#name").val("");
-       $("#image").val("");
-       $("#q1").val("");
-       $("#q2").val("");
-       $("#q3").val("");
-       $("#q4").val("");
-       $("#q5").val("");
-       $("#q6").val("");
-       $("#q7").val("");
-       $("#q8").val("");
-       $("#q9").val("");
-       $("#q10").val("");
+        // Grab the URL of the website
+        var currentURL = window.location.origin;
 
-       });
+        // AJAX post the data to the friends API.
+        $.post(currentURL + "/api/friends", userData, function(data) {
+
+          // Grab the result from the AJAX post so that the best match's name and photo are displayed.
+          $("#matchName").text(data.name);
+          $("#matchImg").attr("src", data.photo);
+
+          // Show the modal with the best match
+          $("#resultsModal").modal("toggle");
+
+        });
+      }
+      else {
+        alert("Please fill out all fields before submitting!");
+      }
 
       return false;
-
     });
 
-</script>
+
+  </script>
 
 </html>
